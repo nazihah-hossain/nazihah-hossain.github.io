@@ -40,15 +40,25 @@
   .section-label {
     font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--gray-mid);
-    margin-bottom: 2.5rem; padding-bottom: 0.75rem;
+    margin-bottom: 2rem; padding-bottom: 0.75rem;
     border-bottom: 0.5px solid var(--gray-light);
   }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tag {
-    font-size: 12px; padding: 3px 10px;
-    border: 0.5px solid var(--gray-light);
-    border-radius: 20px; color: var(--gray-dark); background: var(--white);
+  /* TABS */
+  .tab-bar { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+  .tab-btn {
+    display: flex; flex-direction: column; gap: 0.2rem;
+    padding: 0.75rem 1.25rem;
+    border: 0.5px solid var(--gray-light); border-radius: 10px;
+    background: var(--white); cursor: pointer;
+    font-family: var(--font); transition: all 0.15s; text-align: left;
   }
+  .tab-btn:hover { border-color: var(--accent); background: var(--accent-light); }
+  .tab-btn.active { border-color: var(--accent); background: var(--accent-light); }
+  .tab-btn-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  .tab-btn-title { font-size: 14px; font-weight: 500; color: var(--black); }
+  .tab-btn-sub { font-size: 12px; color: var(--gray-mid); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
   /* PROJECT CARD */
   .project-card {
     border: 0.5px solid var(--gray-light); border-radius: 12px;
@@ -81,6 +91,12 @@
   .deliverable { background: var(--gray-bg); border-radius: 8px; padding: 1rem 1.1rem; }
   .deliverable-title { font-size: 13px; font-weight: 500; color: var(--black); margin-bottom: 0.4rem; }
   .deliverable-body { font-size: 13px; color: var(--gray-dark); line-height: 1.65; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 12px; padding: 3px 10px;
+    border: 0.5px solid var(--gray-light);
+    border-radius: 20px; color: var(--gray-dark); background: var(--white);
+  }
   .pdf-link {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 14px; color: var(--accent); text-decoration: none;
@@ -93,7 +109,7 @@
     padding: 1.5rem 2rem; text-align: center;
     font-size: 13px; color: var(--gray-mid);
   }
-  @media (max-width: 600px) { .project-metrics { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .project-metrics { grid-template-columns: 1fr 1fr; } .tab-bar { flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -111,7 +127,22 @@
 
 <section>
   <p class="section-label">Projects</p>
-  <div class="project-card">
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('crm', this)">
+      <span class="tab-btn-label">Systems Analysis &amp; Design</span>
+      <span class="tab-btn-title">Call Management CRM Integration</span>
+      <span class="tab-btn-sub">UTD &bull; Fall 2025</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('sem', this)">
+      <span class="tab-btn-label">Intro to Web Analytics</span>
+      <span class="tab-btn-title">Air France SEM Campaign Optimization</span>
+      <span class="tab-btn-sub">UTD &bull; Spring 2026</span>
+    </button>
+  </div>
+
+  <div class="tab-panel active" id="crm">
+<div class="project-card">
     <span class="project-tag">Systems Analysis &amp; Design</span>
     <h2 class="project-title">Call Management CRM Integration</h2>
     <p class="project-subtitle">The University of Texas at Dallas &mdash; September &ndash; December 2025 &bull; Group 4 of 5 members</p>
@@ -185,8 +216,86 @@
       View full project document (PDF)
     </a>
   </div>
+  </div>
+
+  <div class="tab-panel" id="sem">
+<div class="project-card">
+    <span class="project-tag">Intro to Web Analytics</span>
+    <h2 class="project-title">Air France SEM Campaign Optimization</h2>
+    <p class="project-subtitle">The University of Texas at Dallas &mdash; Spring 2026 &bull; ITSS 4352: Introduction to Web Analytics &bull; Group of 4</p>
+    <p class="project-desc">
+      Analyzed Air France's sponsored search campaigns across Google, Yahoo!, MSN, and Kayak using real campaign data from a Harvard Business Publishing case study. Applied quadrant analysis frameworks to evaluate publisher and campaign performance, identified optimization strategies, and provided data-driven recommendations to improve advertising ROI across all platforms.
+    </p>
+
+    <div class="project-divider"></div>
+    <div class="project-section-label">What we analyzed</div>
+    <div class="deliverables-grid">
+      <div class="deliverable">
+        <div class="deliverable-title">Performance Metrics</div>
+        <div class="deliverable-body">Identified and applied key SEM metrics including CTR, Transaction Conversion Rate (TCR), Take Rate, Cost Per Click (CPC), and Return on Ad (ROA) to evaluate campaign effectiveness across all publishers.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title">Publisher Quadrant Analysis</div>
+        <div class="deliverable-body">Mapped all 7 publishers (Google US/Global, MSN US/Global, Yahoo US, Overture US/Global) across a Take Rate vs CPC quadrant matrix to identify optimization paths — vertical, horizontal, or diagonal — for each publisher.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title">Campaign Strategy Optimization</div>
+        <div class="deliverable-body">Evaluated all Google US campaigns using a CTR vs TCR matrix. Identified Geo Targeted Miami as the top-performing campaign and provided search-side and web-side improvement recommendations for underperforming campaigns.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title">ROA &amp; KPI Modeling</div>
+        <div class="deliverable-body">Calculated ROA impact by publisher using Excel, identified best-performing campaign keyword combinations, average position strategies, and bid strategies across all 7 publishers.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title">Kayak vs DoubleClick Comparison</div>
+        <div class="deliverable-body">Compared metasearch engine Kayak against DoubleClick tracking data to evaluate channel-level performance differences and inform budget reallocation decisions.</div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title">Strategic Recommendations</div>
+        <div class="deliverable-body">Delivered overall recommendations for Air France's internet marketing strategy including publisher cuts, budget reallocation to high-ROA segments, and landing page improvements to reduce conversion friction.</div>
+      </div>
+    </div>
+
+    <div class="project-divider"></div>
+    <div class="project-section-label">Key findings</div>
+    <div class="project-metrics">
+      <div class="metric"><div class="metric-value">7</div><div class="metric-label">Publishers analyzed</div></div>
+      <div class="metric"><div class="metric-value">1</div><div class="metric-label">Optimal campaign identified (Miami)</div></div>
+      <div class="metric"><div class="metric-value">0</div><div class="metric-label">Publishers in ideal quadrant (low CPC + high take rate)</div></div>
+      <div class="metric"><div class="metric-value">CTR</div><div class="metric-label">Top metric for search-side optimization</div></div>
+      <div class="metric"><div class="metric-value">TCR</div><div class="metric-label">Top metric for web-side optimization</div></div>
+      <div class="metric"><div class="metric-value">ROA</div><div class="metric-label">Primary KPI for budget decisions</div></div>
+    </div>
+
+    <div class="project-divider"></div>
+    <div class="project-section-label">Tools &amp; skills</div>
+    <div class="tag-row">
+      <span class="tag">SEM / Paid Search</span>
+      <span class="tag">Quadrant Analysis</span>
+      <span class="tag">CTR &amp; TCR Analysis</span>
+      <span class="tag">ROA Modeling</span>
+      <span class="tag">Excel</span>
+      <span class="tag">Keyword Strategy</span>
+      <span class="tag">Bid Optimization</span>
+      <span class="tag">A/B Testing Principles</span>
+      <span class="tag">Data-Driven Recommendations</span>
+    </div>
+    <div class="project-divider"></div>
+    <p style="font-size: 13px; color: var(--gray-mid); font-style: italic;">Full project report in progress &mdash; due May 2026.</p>
+  </div>
+  </div>
+
 </section>
 
 <footer>&copy; 2026 Nazihah Hossain</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
 </body>
 </html>
